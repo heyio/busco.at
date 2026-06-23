@@ -39,7 +39,7 @@ export function DatePicker({ field, onSelect }: DatePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'w-full justify-start text-left font-normal px-3 !mt-1 hover:bg-gray-50',
+            'w-full justify-start text-left font-normal px-3 mt-1! hover:bg-gray-50',
             !date && 'text-muted-foreground'
           )}
         >
@@ -50,10 +50,10 @@ export function DatePicker({ field, onSelect }: DatePickerProps) {
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          fromDate={fromDate}
+          startMonth={fromDate}
+          disabled={{ before: fromDate }}
           selected={date}
           onDayClick={handleSelect}
-          initialFocus
           locale={de}
         />
       </PopoverContent>

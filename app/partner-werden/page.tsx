@@ -12,8 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 
   const data = await pageData.json();
-  const metaData = data?.data?.attributes.seo;
-  const ogImage = metaData?.ogImage?.data?.attributes.url;
+  const partnerPage = data?.data?.attributes ?? data?.data;
+  const metaData = partnerPage?.seo ?? partnerPage?.SEO;
+  const ogImageData = metaData?.ogImage?.data?.attributes ?? metaData?.ogImage;
+  const ogImage = ogImageData?.url;
 
   return {
     title: metaData?.title,
@@ -38,8 +40,8 @@ export default async function Page() {
   });
 
   const { data } = await response.json();
-  const pageData = data.attributes;
-  const processedContent = await remark().use(html).process(pageData.content);
+  const pageData = data?.attributes ?? data;
+  const processedContent = await remark().use(html).process(pageData?.content ?? '');
   const contentHtml = processedContent.toString();
 
   return (

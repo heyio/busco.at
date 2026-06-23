@@ -7,22 +7,37 @@ import { pdpQueryParams } from '@/lib/strapi-queries';
 import { Metadata } from 'next';
 import CardSlider from '@/components/molecules/card-slider';
 
+function collectionItems(collection: any) {
+  if (Array.isArray(collection)) {
+    return collection;
+  }
+
+  if (Array.isArray(collection?.data)) {
+    return collection.data;
+  }
+
+  return [];
+}
+
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   const urlParams = new URLSearchParams(pdpQueryParams);
-  urlParams.append('filters[slug][$eq]', params.slug);
+  urlParams.append('filters[slug][$eq]', slug);
 
-  const strapiUrl = `${process.env.NEXT_APOLLO_CLIENT_URL}/api/pdps?populate[0]=SEO&populate[1]=SEO.ogImage&filters[slug][$eq]=${params.slug}`;
+  const strapiUrl = `${process.env.NEXT_APOLLO_CLIENT_URL}/api/pdps?populate[0]=SEO&populate[1]=SEO.ogImage&filters[slug][$eq]=${slug}`;
   const pdpData = await fetch(strapiUrl, {
     next: { revalidate: 10 },
   });
 
   const data = await pdpData.json();
-  const metaData = data?.data[0]?.attributes.SEO;
-  const ogImage = metaData?.ogImage?.data?.attributes.url;
+  const pageData = data?.data[0]?.attributes ?? data?.data[0];
+  const metaData = pageData?.SEO ?? pageData?.seo;
+  const ogImageData = metaData?.ogImage?.data?.attributes ?? metaData?.ogImage;
+  const ogImage = ogImageData?.url;
 
   return {
     title: metaData?.title,
@@ -46,37 +61,46 @@ export async function generateStaticParams() {
   });
 
   const urls = await pages.json();
-  const slugs = urls.data.map(
-    (url: { attributes: { slug: string } }) => url.attributes.slug
-  );
-  return slugs;
+  return collectionItems(urls?.data)
+    .map(
+      (url: { attributes?: { slug?: string }; slug?: string }) =>
+        (url.attributes ?? url)?.slug,
+    )
+    .filter(Boolean)
+    .map((slug: string) => ({ slug }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
   // GraphQL API Call
   const response = await fetch(
     `${process.env.NEXT_APOLLO_CLIENT_URL}/graphql?query=${encodeURIComponent(
-      pdpQuery
+      pdpQuery,
     )}`,
     {
       next: { revalidate: 10 },
-    }
+    },
   );
   const { data } = await response.json();
 
   // extract graphql objects to sections
-  const prices = data?.prices.data;
+  const prices = data?.prices?.data ?? [];
 
   // extract graphql objects to sections
-  const faqs = data?.faqs?.data.map(
+  const faqs = (data?.faqs?.data ?? []).map(
     (faq: { attributes: { question: string; answer: string } }) =>
-      faq.attributes
+      faq.attributes ?? faq,
   );
 
-  const testimonials = data?.testimonials?.data.map(
+  const testimonials = (data?.testimonials?.data ?? []).map(
     (testimonial: {
       attributes: { content: string; author: string; company: string };
-    }) => testimonial.attributes
+    }) => testimonial.attributes ?? testimonial,
   );
 
   // PDP separated API Call (because graphql strapi plugin has a bug for filters: https://github.com/strapi/strapi/issues/19972)
@@ -88,8 +112,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
   });
 
   const pageData = await pdpData.json();
-  const matchedPdp = pageData.data.find(
-    (pdp: any) => pdp.attributes.slug === params.slug
+  const pdpEntries = collectionItems(pageData?.data);
+  const pdps = pdpEntries.map((pdp: any) => pdp.attributes ?? pdp);
+  const matchedPdp = pdpEntries.find(
+    (pdp: any) => (pdp.attributes ?? pdp).slug === slug,
   );
 
   // redirect to 404 if no data
@@ -97,47 +123,55 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return notFound();
   }
 
-  const cardsWithRoutes = pageData.data.map((pdp: any) => {
-    if (pdp.attributes.routes?.data.length > 0) {
-      const cardContent = {
-        title: pdp.attributes.heroSection?.headline,
-        content: pdp.attributes.cardDescription,
-        image: pdp.attributes.heroSection.image?.data?.attributes.url,
-        imageAlt:
-          pdp.attributes.heroSection.image?.data?.attributes.alternativeText,
-        href: pdp.attributes.slug,
-        tags: pdp.attributes.tags.map((tag: any) => tag.tag),
-      };
+  const cardsWithRoutes = pdps
+    .map((pdp: any) => {
+      const routes = collectionItems(pdp.routes);
 
-      return cardContent;
-    }
-    return;
-  });
+      if (routes?.length > 0) {
+        const image =
+          pdp.heroSection?.image?.data?.attributes ?? pdp.heroSection?.image;
+        const cardContent = {
+          title: pdp.heroSection?.headline,
+          content: pdp.cardDescription,
+          image: image?.url,
+          imageAlt: image?.alternativeText,
+          href: pdp.slug,
+          tags: collectionItems(pdp.tags).map((tag: any) => tag.tag),
+        };
 
-  const cardsWithoutRoutes = pageData.data.map((pdp: any) => {
-    if (
-      !pdp.attributes.routes?.data ||
-      pdp.attributes.routes.data.length === 0
-    ) {
-      const cardContent = {
-        title: pdp.attributes.heroSection?.headline,
-        content: pdp.attributes.cardDescription,
-        image: pdp.attributes.heroSection.image.data.attributes.url,
-        imageAlt:
-          pdp.attributes.heroSection.image?.data?.attributes.alternativeText,
-        href: pdp.attributes.slug,
-        tags: pdp.attributes.tags.map((tag: any) => tag.tag),
-      };
+        return cardContent;
+      }
+      return;
+    })
+    .filter(Boolean);
 
-      return cardContent;
-    }
-    return;
-  });
+  const cardsWithoutRoutes = pdps
+    .map((pdp: any) => {
+      const routes = collectionItems(pdp.routes);
 
-  const page = matchedPdp.attributes;
-  const pdpPrice = page.routes.data && {
+      if (!routes || routes.length === 0) {
+        const image =
+          pdp.heroSection?.image?.data?.attributes ?? pdp.heroSection?.image;
+        const cardContent = {
+          title: pdp.heroSection?.headline,
+          content: pdp.cardDescription,
+          image: image?.url,
+          imageAlt: image?.alternativeText,
+          href: pdp.slug,
+          tags: collectionItems(pdp.tags).map((tag: any) => tag.tag),
+        };
+
+        return cardContent;
+      }
+      return;
+    })
+    .filter(Boolean);
+
+  const page = matchedPdp.attributes ?? matchedPdp;
+  const pageRoutes = collectionItems(page.routes);
+  const pdpPrice = pageRoutes && {
     prices: prices,
-    routeInfo: page.routes.data[0]?.attributes, // should be changed for multiple routes, not only for the first match
+    routeInfo: pageRoutes[0]?.attributes ?? pageRoutes[0], // should be changed for multiple routes, not only for the first match
   };
   const breadcrumbs = { title: page.heroSection.headline, url: page.slug };
 
@@ -174,7 +208,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <UI.Spacer size={'lg'} />
             </>
           )}
-          {page?.enumerationOne.length > 0 && (
+          {(page?.enumerationOne ?? []).length > 0 && (
             <>
               <UI.Enumeration content={page.enumerationOne} />
               <UI.Spacer size={'lg'} />
@@ -219,7 +253,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             </>
           )}
           <div className="container mx-auto">
-            {page?.enumerationTwo.length > 0 && (
+            {(page?.enumerationTwo ?? []).length > 0 && (
               <UI.Enumeration content={page.enumerationTwo} />
             )}
             <UI.Spacer size={'lg'} />
@@ -227,7 +261,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
         <div className="bg-white">
           <UI.Spacer size={'lg'} />
-          <div className="container px-4">
+          <div className="container px-4 mx-auto">
             <UI.PriceTable content={page.priceSection} prices={prices} />
           </div>
           <UI.Spacer size={'lg'} />

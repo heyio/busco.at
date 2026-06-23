@@ -89,13 +89,14 @@ export function Navigation() {
                             </NavigationMenuContent>
                           </>
                         ) : (
-                          <Link href={navItem.url} legacyBehavior passHref>
-                            <NavigationMenuLink
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={navItem.url}
                               className={navigationMenuTriggerStyle()}
                             >
                               {navItem.title}
-                            </NavigationMenuLink>
-                          </Link>
+                            </Link>
+                          </NavigationMenuLink>
                         )}
                       </NavigationMenuItem>
                     ))}

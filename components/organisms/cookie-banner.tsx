@@ -9,9 +9,7 @@ const CookieBanner = () => {
   const [isSettingsOpen, setIseSettingsOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    consent.isSettigsOpen
-      ? setIseSettingsOpen(true)
-      : setIseSettingsOpen(false);
+    setIseSettingsOpen(consent.isSettigsOpen);
   }, [consent]);
 
   return <div>{isSettingsOpen && <CookieConsent />}</div>;

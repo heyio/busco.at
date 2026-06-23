@@ -41,12 +41,19 @@ export function TimePicker({ field, onChange }: TimePickerProps) {
   };
 
   useEffect(() => {
-    hours && handleTime();
-    minutes && handleTime();
+    if (hours) {
+      handleTime();
+    }
+
+    if (minutes) {
+      handleTime();
+    }
   }, [hours, minutes]);
 
   useEffect(() => {
-    time && onChange({ time, field });
+    if (time) {
+      onChange({ time, field });
+    }
   }, [time]);
 
   return (
@@ -55,7 +62,7 @@ export function TimePicker({ field, onChange }: TimePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'w-full justify-start text-left font-normal px-3 !mt-1 hover:bg-gray-50',
+            'w-full justify-start text-left font-normal px-3 mt-1! hover:bg-gray-50',
             time === '' && 'text-muted-foreground'
           )}
         >

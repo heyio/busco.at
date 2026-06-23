@@ -2,6 +2,23 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+The local Strapi API is configured in `.env.local` and points to:
+
+```bash
+http://0.0.0.0:1337
+```
+
+Both variables are required because server components use `NEXT_APOLLO_CLIENT_URL`, while browser/client code uses `NEXT_PUBLIC_APOLLO_CLIENT_URL`.
+
+For local production builds, `.env.production.local` uses the same local Strapi URL, so these commands work without extra setup:
+
+```bash
+npm run build
+npm run start
+```
+
+For deployment, copy `.env.production.example` into your hosting provider's environment settings and replace the placeholder with the public production Strapi URL.
+
 First, run the development server:
 
 ```bash

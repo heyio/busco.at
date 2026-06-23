@@ -1,13 +1,12 @@
-import React from 'react';
 import Image from 'next/image';
 import { UI } from '../index';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 export type SeparatorItemProps = {
-  image: { data: { attributes: { url: string; alternativeText?: string } } };
+  image?: any;
   headline: string;
-  subline: string;
+  subline?: string;
   content: string;
   cta?: { title: string; url: string };
 };
@@ -17,21 +16,34 @@ export type SeparatorProps = {
 };
 
 function Separator({ content }: SeparatorProps) {
+  const imageUrl = content?.image?.url || content?.image?.data?.attributes?.url;
+
+  if (!imageUrl) {
+    return (
+      <div className="relative py-8 bg-slate-200">
+        <div className="text-center relative z-10 max-w-3xl px-4 py-8 lg:py-32 mx-auto">
+          <UI.Typography size={'h1'} textColor={'white'} weight={'bold'}>
+            {content?.headline}
+          </UI.Typography>
+        </div>
+      </div>
+    );
+  }
+
+  const fullImageUrl = imageUrl.startsWith('http')
+    ? imageUrl
+    : `${process.env.NEXT_PUBLIC_APOLLO_CLIENT_URL}${imageUrl}`;
+
   return (
-    <div className="relative py-8">
-      {!!content?.image.data && (
-        <Image
-          src={content?.image.data.attributes.url}
-          alt={
-            content?.image.data.attributes.alternativeText
-              ? content?.image.data.attributes.alternativeText
-              : 'busco Ausflug'
-          }
-          layout="fill"
-          objectFit="cover"
-          className="absolute top-0 left-0 z-0"
-        />
-      )}
+    <div className="relative py-32 w-full">
+      <Image
+        src={fullImageUrl}
+        alt={content?.image?.alternativeText || 'busco Ausflug'}
+        fill
+        sizes="100vw"
+        priority={false}
+        className="absolute top-0 left-0 z-0 object-cover w-full h-full"
+      />
       <div className="text-center relative z-10 max-w-3xl px-4 py-8 lg:py-32 mx-auto">
         {!!content.subline && (
           <UI.Typography

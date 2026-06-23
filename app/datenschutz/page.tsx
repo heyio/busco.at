@@ -11,10 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 
   const { data } = await response.json();
-  const metaData = data.attributes.seo;
+  const pageData = data?.attributes ?? data;
+  const metaData = pageData?.seo ?? pageData?.SEO;
   return {
-    title: metaData.title,
-    description: metaData.description,
+    title: metaData?.title ?? 'Datenschutz',
+    description: metaData?.description,
   };
 }
 
@@ -25,8 +26,8 @@ export default async function Page() {
   });
 
   const { data } = await response.json();
-  const pageData = data.attributes;
-  const processedContent = await remark().use(html).process(pageData.content);
+  const pageData = data?.attributes ?? data;
+  const processedContent = await remark().use(html).process(pageData?.content ?? '');
   const contentHtml = processedContent.toString();
 
   return (
