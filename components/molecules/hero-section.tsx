@@ -20,10 +20,13 @@ function HeroSection({ content, breadCrumbs, priceInfo }: HeroProps) {
 
   // Support both Strapi v4 nested (data.attributes.url) and flat (url) structures
   const imageUrl = content?.image?.data?.attributes?.url || content?.image?.url;
-  const imageAlt = content?.image?.data?.attributes?.alternativeText || content?.image?.alternativeText || 'busco Bus';
+  const imageAlt =
+    content?.image?.data?.attributes?.alternativeText ||
+    content?.image?.alternativeText ||
+    'busco Bus';
 
   return (
-    <div className="relative py-8 px-4 min-h-screen lg:min-h-64 lg:max-h-[800px]">
+    <div className="relative py-8 px-4 min-h-screen lg:min-h-64 lg:max-h-[800px] pt-24">
       {imageUrl && (
         <Image
           src={imageUrl}

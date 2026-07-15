@@ -9,7 +9,9 @@ export type BreadcrumbsItem = {
 };
 
 export type ImageItem = {
-  data: {
+  url?: string;
+  alternativeText?: string;
+  data?: {
     attributes: {
       url: string;
       alternativeText?: string;

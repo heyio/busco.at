@@ -31,7 +31,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-            className
+            className,
           )}
           {...props}
         >
@@ -56,7 +56,7 @@ export function Navigation() {
       <div className="fixed left-[50%] translate-x-[-50%] h-24 w-full px-2 md:px-4 z-40">
         <div className="flex items-center justify-center w-full h-full">
           <div
-            className={`md:px-6 py-4 rounded-xl transition-all duration-500 container ${
+            className={`md:px-6 py-4 rounded-xl container ${
               scrolled
                 ? ' bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-70'
                 : 'bg-white'

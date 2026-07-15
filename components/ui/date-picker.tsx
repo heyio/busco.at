@@ -40,7 +40,7 @@ export function DatePicker({ field, onSelect }: DatePickerProps) {
           variant={'outline'}
           className={cn(
             'w-full justify-start text-left font-normal px-3 mt-1! hover:bg-gray-50',
-            !date && 'text-muted-foreground'
+            !date && 'text-muted-foreground',
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
