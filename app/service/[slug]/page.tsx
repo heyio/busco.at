@@ -8,6 +8,7 @@ import { Metadata } from 'next';
 import CardSlider from '@/components/molecules/card-slider';
 
 export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 function collectionItems(collection: any) {
   if (Array.isArray(collection)) {
