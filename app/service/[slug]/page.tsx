@@ -58,18 +58,23 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const pages = await fetch(`${process.env.NEXT_APOLLO_CLIENT_URL}/api/pdps`, {
-    next: { revalidate: 10 },
-  });
+  try {
+    const pages = await fetch(`${process.env.NEXT_APOLLO_CLIENT_URL}/api/pdps`, {
+      next: { revalidate: 10 },
+    });
 
-  const urls = await pages.json();
-  return collectionItems(urls?.data)
-    .map(
-      (url: { attributes?: { slug?: string }; slug?: string }) =>
-        (url.attributes ?? url)?.slug,
-    )
-    .filter(Boolean)
-    .map((slug: string) => ({ slug }));
+    const urls = await pages.json();
+    return collectionItems(urls?.data)
+      .map(
+        (url: { attributes?: { slug?: string }; slug?: string }) =>
+          (url.attributes ?? url)?.slug,
+      )
+      .filter(Boolean)
+      .map((slug: string) => ({ slug }));
+  } catch (error) {
+    console.error('Failed to generate static params for service routes:', error);
+    return [];
+  }
 }
 
 export default async function Page({
