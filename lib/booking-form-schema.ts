@@ -48,4 +48,4 @@ export const formSchema = z.object({
   }),
 });
 
-export type BookingFormValues = z.infer<typeof formSchema>;
+export type BookingFormValues = z.input<typeof formSchema>;

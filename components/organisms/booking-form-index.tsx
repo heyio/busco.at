@@ -109,7 +109,7 @@ function BookingFormIndex() {
                             value={field.value}
                             defaultValue={field.value}
                           >
-                            <UI.FormControl>
+                            <UI.FormControl className="relative">
                               <UI.SelectTrigger>
                                 <UI.SelectValue
                                   defaultValue={field.value}
@@ -310,7 +310,7 @@ function BookingFormIndex() {
                       </div>
                       <UI.FormControl>
                         <UI.Switch
-                          className="!mt-1"
+                          className="mt-1!"
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -329,7 +329,7 @@ function BookingFormIndex() {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className="text-xs font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !mt-0 cursor-pointer">
+                      <FormLabel className="text-xs font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mt-0! cursor-pointer">
                         Ich habe die{' '}
                         <Link
                           href="/datenschutz"

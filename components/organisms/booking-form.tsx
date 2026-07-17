@@ -75,12 +75,19 @@ function BookingForm({ priceInfo }: BookingFormProps) {
   };
 
   useEffect(() => {
-    priceInfo && handlePrice(priceInfo);
+    if (priceInfo) {
+      handlePrice(priceInfo);
+    }
   }, [form.getValues('vehicle'), form.getValues('from'), form.getValues('to')]);
 
   useEffect(() => {
-    from && form.setValue('from', from);
-    to && form.setValue('to', to);
+    if (from) {
+      form.setValue('from', from);
+    }
+
+    if (to) {
+      form.setValue('to', to);
+    }
   }, [from, to]);
 
   useEffect(() => {
@@ -132,7 +139,7 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                               value={field.value}
                               defaultValue={field.value}
                             >
-                              <UI.FormControl>
+                              <UI.FormControl className="relative">
                                 <UI.SelectTrigger>
                                   <UI.SelectValue
                                     defaultValue={field.value}
@@ -228,7 +235,7 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                         </div>
                         <UI.FormControl>
                           <UI.Switch
-                            className="!mt-1"
+                            className="mt-1!"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
@@ -340,7 +347,7 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className="text-xs font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !mt-0 cursor-pointer">
+                      <FormLabel className="text-xs font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mt-0! cursor-pointer">
                         Ich habe die{' '}
                         <Link
                           href="/datenschutz"
@@ -376,7 +383,7 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                 <div className="flex justify-between">
                   <Image
                     src={Dots.src}
-                    className="absolute w-full top-[-1px] left-0 px-2 h-1"
+                    className="absolute w-full -top-px left-0 px-2 h-1"
                     width={100}
                     height={3}
                     alt="dots"

@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 import { UI } from '../index';
 import BookingForm from '../organisms/booking-form';
@@ -19,19 +18,21 @@ function HeroSection({ content, breadCrumbs, priceInfo }: HeroProps) {
     { title: breadCrumbs.title, url: breadCrumbs.url },
   ];
 
+  // Support both Strapi v4 nested (data.attributes.url) and flat (url) structures
+  const imageUrl = content?.image?.data?.attributes?.url || content?.image?.url;
+  const imageAlt =
+    content?.image?.data?.attributes?.alternativeText ||
+    content?.image?.alternativeText ||
+    'busco Bus';
+
   return (
-    <div className="relative py-8 px-4 min-h-screen lg:min-h-64 lg:max-h-[800px]">
-      {content?.image && (
+    <div className="relative py-8 px-4 min-h-screen lg:min-h-64 lg:max-h-[800px] pt-24">
+      {imageUrl && (
         <Image
-          src={content.image.data?.attributes?.url}
-          alt={
-            content.image.data?.attributes?.alternativeText
-              ? content.image.data?.attributes?.alternativeText
-              : 'busco Bus'
-          }
-          layout="fill"
-          objectFit="cover"
-          className="absolute top-0 left-0 z-0"
+          src={imageUrl}
+          alt={imageAlt}
+          fill
+          className="absolute top-0 left-0 z-0 object-cover"
         />
       )}
       <div className="lg:grid lg:grid-cols-2 justify-between text-white relative z-20 container mx-auto h-full md:py-16">

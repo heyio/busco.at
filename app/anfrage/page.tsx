@@ -5,6 +5,8 @@ import RequestForm from '@/components/organisms/request-form';
 import '@/app/assets/styles/markdown.css';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const strapiUrl = `${process.env.NEXT_PUBLIC_APOLLO_CLIENT_URL}/api/contact-page?populate[0]=seo&populate[1]=seo.ogImage`;
   const pageData = await fetch(strapiUrl, {
@@ -12,8 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 
   const data = await pageData.json();
-  const metaData = data?.data?.attributes.seo;
-  const ogImage = metaData?.ogImage?.data?.attributes.url;
+  const contactPage = data?.data?.attributes ?? data?.data;
+  const metaData = contactPage?.seo ?? contactPage?.SEO;
+  const ogImageData = metaData?.ogImage?.data?.attributes ?? metaData?.ogImage;
+  const ogImage = ogImageData?.url;
 
   return {
     title: metaData?.title,
@@ -38,8 +42,10 @@ export default async function Page() {
   });
 
   const { data } = await response.json();
-  const pageData = data.attributes;
-  const processedContent = await remark().use(html).process(pageData.content);
+  const pageData = data?.attributes ?? data;
+  const processedContent = await remark()
+    .use(html)
+    .process(pageData?.content ?? '');
   const contentHtml = processedContent.toString();
 
   return (

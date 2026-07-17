@@ -21,10 +21,8 @@ export default async function Page() {
           <Image
             src="/images/busco-hero.jpg"
             alt="Bus finden mit Busco"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="bottom left"
-            className="absolute top-0 left-0 z-0"
+            fill
+            className="absolute top-0 left-0 z-0 object-cover object-bottom object-left"
           />
           <div className="lg:grid lg:grid-cols-2 justify-between text-white relative z-20 container mx-auto h-full md:pt-16 md:mb-32">
             <div className="flex flex-col gap-12 lg:gap-24">

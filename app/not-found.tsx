@@ -1,4 +1,3 @@
-import React from 'react';
 import { UI } from '@/components/index';
 import Link from 'next/link';
 

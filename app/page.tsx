@@ -8,6 +8,9 @@ import { HorizontalCardType } from '@/types/Post';
 import HorizontalCard from '@/components/molecules/horizontal-card';
 import { Metadata } from 'next';
 import { homeQueryParams } from '@/lib/strapi-queries';
+import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(): Promise<Metadata> {
   const strapiUrl = `${process.env.NEXT_APOLLO_CLIENT_URL}/api/home-page?populate=*`;
@@ -16,10 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 
   const { data } = await response.json();
-  const metaData = data.attributes.seo;
+  const pageData = data?.attributes ?? data;
+  const metaData = pageData?.seo ?? pageData?.SEO;
   return {
-    title: metaData.title,
-    description: metaData.description,
+    title: metaData?.title ?? 'Busco',
+    description: metaData?.description,
   };
 }
 
@@ -32,17 +36,25 @@ export default async function Index() {
   });
 
   const { data } = await response.json();
-  const { heroSection, intro, sectionTwo, cards, separatorOne, separatorTwo } =
-    data.attributes;
+  const pageData = data?.attributes ?? data;
 
-  const horizontalCards = cards.map((card: any) => {
+  if (!pageData) {
+    notFound();
+  }
+
+  const { heroSection, intro, sectionTwo, cards, separatorOne, separatorTwo } =
+    pageData;
+
+  const horizontalCards = (cards ?? []).map((card: any) => {
+    const image = card.image?.data?.attributes ?? card.image;
+
     return {
       title: card.title,
       content: card.content,
-      tags: card.tags.map((item: any) => item.tag),
+      tags: (card.tags ?? []).map((item: any) => item.tag),
       cta: card.cta,
-      image: card.image.data.attributes.url,
-      imageAlt: card.image.data.attributes.alternativeText,
+      image: image?.url,
+      imageAlt: image?.alternativeText,
     };
   });
 
@@ -51,9 +63,9 @@ export default async function Index() {
   const responseFaq = await fetch(strapiFaqUrl);
   const faqsData = await responseFaq.json();
 
-  const faqs = faqsData?.data.map(
+  const faqs = (faqsData?.data ?? []).map(
     (faq: { attributes: { question: string; answer: string } }) =>
-      faq.attributes
+      faq.attributes ?? faq,
   );
 
   return (
@@ -64,10 +76,8 @@ export default async function Index() {
           <Image
             src="/images/busco-hero.jpg"
             alt="Bus finden mit Busco"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="bottom left"
-            className="absolute top-0 left-0 z-0"
+            fill
+            className="absolute top-0 left-0 z-0 object-cover object-bottom object-left"
           />
           <div className="lg:grid lg:grid-cols-2 justify-between text-white relative z-20 container mx-auto h-full md:pt-16 md:mb-32">
             <div className="flex flex-col gap-12 lg:gap-24">
@@ -86,7 +96,7 @@ export default async function Index() {
               </div>
             </div>
           </div>
-          <div className="container relative z-1 pt-8 md:pt-0">
+          <div className="container relative z-1 pt-8 md:pt-0 mx-auto">
             <div className="md:absolute z-1 md:-top-20 left-0 w-full">
               <BookingFormIndex />
             </div>

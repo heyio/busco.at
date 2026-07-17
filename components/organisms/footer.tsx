@@ -1,7 +1,7 @@
 import { UI } from '../index';
 import Link from 'next/link';
 import Logo from '../ui/logo';
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa6';
 import CookieBanner from './cookie-banner';
 import CtaCookies from '../molecules/cta-cookies';
 
@@ -101,16 +101,16 @@ export default function Footer() {
             href="https://www.linkedin.com/company/busco-vienna/about/"
             target="blank"
           >
-            <Linkedin />
+            <FaLinkedin size={24} />
           </Link>
           <Link href="https://www.instagram.com/busco_vienna/" target="blank">
-            <Instagram />
+            <FaInstagram size={24} />
           </Link>
           <Link
             href="https://www.facebook.com/people/Busco-Vienna/61565109265240/"
             target="blank"
           >
-            <Facebook />
+            <FaFacebook size={24} />
           </Link>
         </div>
       </div>

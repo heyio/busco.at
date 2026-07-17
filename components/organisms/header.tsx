@@ -19,7 +19,7 @@ export default function Header({
   return (
     <header>
       <Navigation />
-      <div className="pt-24">
+      <div>
         <UI.HeroSection
           content={content}
           breadCrumbs={breadCrumbs}

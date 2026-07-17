@@ -63,8 +63,13 @@ const Autocomplete = ({
   }, [selectedTown]);
 
   useEffect(() => {
-    selectedTown && form.setValue(fieldName, selectedTown.name);
-    selectedTown?.name !== '' && form.trigger(fieldName);
+    if (selectedTown) {
+      form.setValue(fieldName, selectedTown.name);
+    }
+
+    if (selectedTown?.name !== '') {
+      form.trigger(fieldName);
+    }
   }, [selectedTown]);
 
   const getFrom = form.getValues(fieldName);

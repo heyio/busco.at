@@ -48,9 +48,11 @@ import Typography from './ui/typography';
 
 //Molecules
 import Breadcrumbs from './molecules/breadcrumbs';
+import AuthorBox from './molecules/author-box';
 import HeroSection from './molecules/hero-section';
 import ListItem from './molecules/list-item';
 import RelatedLinks from './molecules/related-links';
+import SectionBlock from './molecules/section-block';
 import ServiceCard from '@/components/molecules/service-card';
 import Separator from './molecules/separator';
 import TalkTo from './molecules/scroll-to';
@@ -109,10 +111,12 @@ export const UI = {
   Typography,
 
   // Molecules
+  AuthorBox,
   Breadcrumbs,
   HeroSection,
   List,
   RelatedLinks,
+  SectionBlock,
   ServiceCard,
   Separator,
   TalkTo,
