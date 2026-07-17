@@ -1,3 +1,5 @@
+'use client';
+
 import { FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { BookingFormValues } from '@/lib/booking-form-schema';
 import { Input } from '../ui/input';
