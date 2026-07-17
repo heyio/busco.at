@@ -11,6 +11,7 @@ import {
 } from '@/hooks/use-strapi-navigation';
 import type { ArticleSiloSection } from '@/types/ArticleSilo';
 
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

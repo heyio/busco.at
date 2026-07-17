@@ -5,6 +5,8 @@ import RequestForm from '@/components/organisms/request-form';
 import '@/app/assets/styles/markdown.css';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const strapiUrl = `${process.env.NEXT_PUBLIC_APOLLO_CLIENT_URL}/api/partner-page?populate[0]=seo&populate[1]=seo.ogImage`;
   const pageData = await fetch(strapiUrl, {
@@ -41,7 +43,9 @@ export default async function Page() {
 
   const { data } = await response.json();
   const pageData = data?.attributes ?? data;
-  const processedContent = await remark().use(html).process(pageData?.content ?? '');
+  const processedContent = await remark()
+    .use(html)
+    .process(pageData?.content ?? '');
   const contentHtml = processedContent.toString();
 
   return (

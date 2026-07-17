@@ -10,6 +10,8 @@ import { Metadata } from 'next';
 import { homeQueryParams } from '@/lib/strapi-queries';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const strapiUrl = `${process.env.NEXT_APOLLO_CLIENT_URL}/api/home-page?populate=*`;
   const response = await fetch(strapiUrl, {

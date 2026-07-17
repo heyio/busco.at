@@ -4,6 +4,8 @@ import { UI } from '@/components/index';
 import '@/app/assets/styles/markdown.css';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const strapiUrl = `${process.env.NEXT_APOLLO_CLIENT_URL}/api/imprint?populate=*`;
   const response = await fetch(strapiUrl, {
@@ -27,7 +29,9 @@ export default async function Page() {
 
   const { data } = await response.json();
   const pageData = data?.attributes ?? data;
-  const processedContent = await remark().use(html).process(pageData?.content ?? '');
+  const processedContent = await remark()
+    .use(html)
+    .process(pageData?.content ?? '');
   const contentHtml = processedContent.toString();
 
   return (

@@ -7,6 +7,8 @@ import { pdpQueryParams } from '@/lib/strapi-queries';
 import { Metadata } from 'next';
 import CardSlider from '@/components/molecules/card-slider';
 
+export const dynamic = 'force-dynamic';
+
 function collectionItems(collection: any) {
   if (Array.isArray(collection)) {
     return collection;
