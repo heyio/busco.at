@@ -1,6 +1,7 @@
 'use client';
 
 import * as z from 'zod';
+import getFormData from '@/lib/form-data';
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: 'Name ist Pflichtfeld' }),
@@ -23,15 +24,13 @@ export const formSchema = z.object({
     .refine(
       (value) => {
         try {
-          const formDataString = typeof window !== 'undefined' 
-            ? localStorage?.getItem('form')
-            : null;
-          const formData = formDataString ? JSON.parse(formDataString) : null;
+          const formData = getFormData();
           if (formData?.returnJourney && !value) {
             return false;
           }
         } catch (e) {
-          // localStorage not available or parse error
+          // localStorage not available during SSR
+          console.log(e);
         }
         return true;
       },
@@ -44,15 +43,13 @@ export const formSchema = z.object({
     .refine(
       (value) => {
         try {
-          const formDataString = typeof window !== 'undefined' 
-            ? localStorage?.getItem('form')
-            : null;
-          const formData = formDataString ? JSON.parse(formDataString) : null;
+          const formData = getFormData();
           if (formData?.returnJourney && !value) {
             return false;
           }
         } catch (e) {
-          // localStorage not available or parse error
+          // localStorage not available during SSR
+          console.log(e);
         }
         return true;
       },

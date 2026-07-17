@@ -6,9 +6,9 @@ import { pdpQuery } from '@/lib/graphql-queries';
 import { pdpQueryParams } from '@/lib/strapi-queries';
 import { Metadata } from 'next';
 import CardSlider from '@/components/molecules/card-slider';
+//import Header from '@/components/organisms/header';
 
 export const dynamic = 'force-dynamic';
-export const dynamicParams = true;
 
 function collectionItems(collection: any) {
   if (Array.isArray(collection)) {
@@ -59,23 +59,18 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  try {
-    const pages = await fetch(`${process.env.NEXT_APOLLO_CLIENT_URL}/api/pdps`, {
-      next: { revalidate: 10 },
-    });
+  const pages = await fetch(`${process.env.NEXT_APOLLO_CLIENT_URL}/api/pdps`, {
+    next: { revalidate: 10 },
+  });
 
-    const urls = await pages.json();
-    return collectionItems(urls?.data)
-      .map(
-        (url: { attributes?: { slug?: string }; slug?: string }) =>
-          (url.attributes ?? url)?.slug,
-      )
-      .filter(Boolean)
-      .map((slug: string) => ({ slug }));
-  } catch (error) {
-    console.error('Failed to generate static params for service routes:', error);
-    return [];
-  }
+  const urls = await pages.json();
+  return collectionItems(urls?.data)
+    .map(
+      (url: { attributes?: { slug?: string }; slug?: string }) =>
+        (url.attributes ?? url)?.slug,
+    )
+    .filter(Boolean)
+    .map((slug: string) => ({ slug }));
 }
 
 export default async function Page({
@@ -176,24 +171,24 @@ export default async function Page({
     .filter(Boolean);
 
   const page = matchedPdp.attributes ?? matchedPdp;
-  const pageRoutes = collectionItems(page.routes);
-  const pdpPrice = pageRoutes && {
-    prices: prices,
-    routeInfo: pageRoutes[0]?.attributes ?? pageRoutes[0], // should be changed for multiple routes, not only for the first match
-  };
-  const breadcrumbs = { title: page.heroSection.headline, url: page.slug };
+  //const pageRoutes = collectionItems(page.routes);
+  //const pdpPrice = pageRoutes && {
+  //  prices: prices,
+  //  routeInfo: pageRoutes[0]?.attributes ?? pageRoutes[0], // should be changed for multiple routes, not only for the first match
+  //};
+  //const breadcrumbs = { title: page.heroSection.headline, url: page.slug };
 
   const jsonLd = page.SEO.jsonLd;
 
   return (
     <>
-      {page.heroSection && (
-        <UI.Header
+      {/*{page.heroSection && (
+        <Header
           content={page.heroSection}
           breadCrumbs={breadcrumbs}
           priceInfo={pdpPrice}
         />
-      )}
+      )}*/}
       <main>
         {/* JSON-LD Start */}
         {jsonLd && (
