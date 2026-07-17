@@ -21,13 +21,18 @@ export const formSchema = z.object({
     .transform((value) => value)
     .refine(
       (value) => {
-        const formData = getFormData();
-        if (formData.returnJourney && !value) {
-          return false;
+        try {
+          const formData = getFormData();
+          if (formData?.returnJourney && !value) {
+            return false;
+          }
+        } catch (e) {
+          // localStorage not available during SSR
+          console.log(e);
         }
         return true;
       },
-      { message: 'Datum ist Pflichtfeld' }
+      { message: 'Datum ist Pflichtfeld' },
     ),
   returnTime: z
     .string()
@@ -35,13 +40,18 @@ export const formSchema = z.object({
     .transform((value) => value)
     .refine(
       (value) => {
-        const formData = getFormData();
-        if (formData.returnJourney && !value) {
-          return false;
+        try {
+          const formData = getFormData();
+          if (formData?.returnJourney && !value) {
+            return false;
+          }
+        } catch (e) {
+          // localStorage not available during SSR
+          console.log(e);
         }
         return true;
       },
-      { message: 'Uhrzeit ist Pflichtfeld' }
+      { message: 'Uhrzeit ist Pflichtfeld' },
     ),
   terms: z.boolean().refine((value) => value === true, {
     message: 'Sie müssen den Bedingungen zustimmen',
