@@ -1,3 +1,5 @@
+'use client';
+
 import { UI } from '../index';
 import { HeroHeaderProps } from '@/types/HeroHeader';
 import { BreadcrumbType } from '@/types/Breadcrumbs';

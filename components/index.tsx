@@ -1,3 +1,5 @@
+'use client';
+
 //Atoms
 import {
   Accordion,
