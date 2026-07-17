@@ -46,8 +46,8 @@ const Autocomplete = ({
     if (!towns) return [];
     setTownList(
       towns.filter((town: TownModel) =>
-        town.name?.toLowerCase().startsWith(value?.toLowerCase())
-      )
+        town.name?.toLowerCase().startsWith(value?.toLowerCase()),
+      ),
     );
   };
 
