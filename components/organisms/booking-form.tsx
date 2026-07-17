@@ -13,7 +13,15 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { BookingFormValues, formSchema } from '@/lib/booking-form-schema';
 import defaultValues from '@/lib/default-booking-form-values';
-import { UI } from '../index';
+import Typography from '@/components/ui/typography';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import useBookingForm from '@/hooks/use-booking-form';
 import Dots from '@/public/elements/dots.svg';
 import Image from 'next/image';
@@ -28,6 +36,15 @@ import steps from '@/lib/booking-form-steps';
 import Autocomplete from '../molecules/autocomplete';
 import { Checkbox } from '../ui/checkbox';
 import Link from 'next/link';
+
+const getDestinationName = (destination: any) => {
+  return (
+    destination?.data?.attributes?.name ||
+    destination?.attributes?.name ||
+    destination?.name ||
+    ''
+  );
+};
 
 export type BookingFormProps = {
   priceInfo?: { prices: { attributes: PriceItemType }[]; routeInfo: RouteType };
@@ -103,9 +120,9 @@ function BookingForm({ priceInfo }: BookingFormProps) {
     <div className="text-foreground w-full">
       <>
         <div className="bg-white rounded-t-2xl pb-4 py-6 px-6 md:px-10">
-          <UI.Typography size="h4" weight={'bold'} className="text-center">
+          <Typography size="h4" weight={'bold'} className="text-center">
             {steps[currentStep].title}
-          </UI.Typography>
+          </Typography>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
@@ -134,23 +151,23 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                         <FormItem>
                           <FormLabel>Fahrzeug</FormLabel>
                           <FormControl>
-                            <UI.Select
+                            <Select
                               onValueChange={field.onChange}
                               value={field.value}
                               defaultValue={field.value}
                             >
-                              <UI.FormControl className="relative">
-                                <UI.SelectTrigger>
-                                  <UI.SelectValue
+                              <FormControl className="relative">
+                                <SelectTrigger>
+                                  <SelectValue
                                     defaultValue={field.value}
                                     placeholder="Fahrzeug"
                                   />
-                                </UI.SelectTrigger>
-                              </UI.FormControl>
-                              <UI.SelectContent>
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
                                 {vehicles?.length &&
                                   vehicles.map((vehicle) => (
-                                    <UI.SelectItem
+                                    <SelectItem
                                       key={vehicle.name}
                                       value={vehicle.name}
                                       className="relative min-h-10"
@@ -168,10 +185,10 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                                           alt={vehicle.name}
                                         />
                                       </div>
-                                    </UI.SelectItem>
+                                    </SelectItem>
                                   ))}
-                              </UI.SelectContent>
-                            </UI.Select>
+                              </SelectContent>
+                            </Select>
                           </FormControl>
                         </FormItem>
                       )}
@@ -223,24 +240,24 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <UI.FormField
+                  <FormField
                     control={form.control}
                     name="returnJourney"
                     render={({ field }) => (
-                      <UI.FormItem>
+                      <FormItem>
                         <div className="space-y-0.5">
-                          <UI.FormLabel className="cursor-pointer">
+                          <FormLabel className="cursor-pointer">
                             Rückfahrt
-                          </UI.FormLabel>
+                          </FormLabel>
                         </div>
-                        <UI.FormControl>
-                          <UI.Switch
+                        <FormControl>
+                          <Switch
                             className="mt-1!"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
-                        </UI.FormControl>
-                      </UI.FormItem>
+                        </FormControl>
+                      </FormItem>
                     )}
                   />
                 </div>
@@ -369,12 +386,12 @@ function BookingForm({ priceInfo }: BookingFormProps) {
             )}
             {currentStep === 2 && (
               <div className="flex flex-col gap-4 bg-white rounded-b-lg pb-6 px-6 md:px-10">
-                <UI.Typography className="text-center">
+                <Typography className="text-center">
                   Wir möchten Ihnen versichern, dass wir Ihr Anliegen ernst
                   nehmen und uns bemühen, Ihnen schnellstmöglich zu antworten.
                   Sie können mit einer Rückmeldung von uns innerhalb von 48
                   Stunden rechnen.
-                </UI.Typography>
+                </Typography>
               </div>
             )}
             {/* Retunr Journey END */}
@@ -391,23 +408,23 @@ function BookingForm({ priceInfo }: BookingFormProps) {
                   <div className="flex flex-col md:flex-row justify-between gap-2 w-full">
                     <div>
                       {price > 0 ? (
-                        <UI.Typography
+                        <Typography
                           type="h4"
                           size={'h4'}
                           weight={'bold'}
                           className="whitespace-nowrap"
                         >
                           Fixpreis: <var className="not-italic">€{price},-</var>
-                        </UI.Typography>
+                        </Typography>
                       ) : (
-                        <UI.Typography
+                        <Typography
                           type="h4"
                           size={'h4'}
                           weight={'bold'}
                           className="whitespace-nowrap"
                         >
                           Preis auf Anfrage
-                        </UI.Typography>
+                        </Typography>
                       )}
                     </div>
                     <div className={`flex md:justify-end w-full`}>
@@ -435,7 +452,7 @@ function BookingForm({ priceInfo }: BookingFormProps) {
       </>
       {price > 0 && (
         <ScrollTo
-          title={`${priceInfo?.routeInfo.from.data.attributes.name} - ${priceInfo?.routeInfo.to.data.attributes.name}`}
+          title={`${getDestinationName(priceInfo?.routeInfo?.from)} - ${getDestinationName(priceInfo?.routeInfo?.to)}`}
           price={price}
         />
       )}

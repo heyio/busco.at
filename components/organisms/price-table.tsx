@@ -1,6 +1,15 @@
-import { UI } from '../index';
 import { PriceItemType } from '@/types/PriceItem';
 import { LifeBuoy } from 'lucide-react';
+import Typography from '@/components/ui/typography';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import Spacer from '@/components/ui/spacer';
 
 export type PriceTableContent = {
   subline: string;
@@ -19,103 +28,95 @@ export function PriceTable({ content, prices }: PriceTableProps) {
       {!!content && (
         <div>
           <div className="flex flex-col gap-4 md:max-w-[40%] mx-auto text-center">
-            <UI.Typography
-              size={'h4'}
-              weight={'bold'}
-              className="text-secondary"
-            >
+            <Typography size={'h4'} weight={'bold'} className="text-secondary">
               {content.subline}
-            </UI.Typography>
-            <UI.Typography size={'h3'} weight={'bold'}>
+            </Typography>
+            <Typography size={'h3'} weight={'bold'}>
               {content.headline}
-            </UI.Typography>
+            </Typography>
           </div>
-          <UI.Typography
+          <Typography
             size={'h4'}
             textColor={'gray'}
             className="mt-6 md:max-w-[60%] mx-auto text-center"
           >
             {content.content}
-          </UI.Typography>
+          </Typography>
         </div>
       )}
 
-      <UI.Typography size={'h4'} weight={'bold'} className="my-6">
+      <Typography size={'h4'} weight={'bold'} className="my-6">
         Preis pro Stunde*
-      </UI.Typography>
-      <UI.Table>
-        <UI.TableHeader>
-          <UI.TableRow>
-            <UI.TableHead>Fahrzeug</UI.TableHead>
-            <UI.TableHead>Personen</UI.TableHead>
-            <UI.TableHead className="text-right">Preis pro Stunde</UI.TableHead>
-          </UI.TableRow>
-        </UI.TableHeader>
-        <UI.TableBody>
+      </Typography>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Fahrzeug</TableHead>
+            <TableHead>Personen</TableHead>
+            <TableHead className="text-right">Preis pro Stunde</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {prices.map((price) => (
-            <UI.TableRow key={price.attributes.vehicle}>
-              <UI.TableCell className="font-medium">
+            <TableRow key={price.attributes.vehicle}>
+              <TableCell className="font-medium">
                 {price.attributes.vehicle}
-              </UI.TableCell>
-              <UI.TableCell>
-                Max. {price.attributes.travelers} Personen
-              </UI.TableCell>
-              <UI.TableCell className="text-right">
+              </TableCell>
+              <TableCell>Max. {price.attributes.travelers} Personen</TableCell>
+              <TableCell className="text-right">
                 EUR {price.attributes.pricePerHour.toString().replace('.', ',')}
                 ,-
-              </UI.TableCell>
-            </UI.TableRow>
+              </TableCell>
+            </TableRow>
           ))}
-        </UI.TableBody>
-      </UI.Table>
+        </TableBody>
+      </Table>
       <div className="flex gap-2 rounded-lg bg-gray-100 items-center py-4 mt-16 px-4">
         <LifeBuoy className="text-indigo-700" />
         <div className="flex justify-between items-center w-full">
-          <UI.Typography size={'sm'}>
+          <Typography size={'sm'}>
             *Der Stundenpreis kommt zum Einsatz, wenn die Dauer der Nutzung
             entscheidend ist, beispielsweise bei Stadtrundfahrten mit wenig
             Kilometern, aber mehreren Wartezeiten an jeweiligen Stops. Alle
             Preisangaben netto, ohne Mehrwertsteuer.
-          </UI.Typography>
+          </Typography>
         </div>
       </div>
-      <UI.Spacer />
-      <UI.Typography size={'h4'} weight={'bold'} className="my-6">
+      <Spacer />
+      <Typography size={'h4'} weight={'bold'} className="my-6">
         Preis pro Kilometer*
-      </UI.Typography>
-      <UI.Table>
-        <UI.TableHeader>
-          <UI.TableRow>
-            <UI.TableHead>Fahrzeug</UI.TableHead>
-            <UI.TableHead>Personen</UI.TableHead>
-            <UI.TableHead className="text-right">Preis pro km</UI.TableHead>
-          </UI.TableRow>
-        </UI.TableHeader>
-        <UI.TableBody>
+      </Typography>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Fahrzeug</TableHead>
+            <TableHead>Personen</TableHead>
+            <TableHead className="text-right">Preis pro km</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {prices.map((price) => (
-            <UI.TableRow key={price.attributes.vehicle}>
-              <UI.TableCell className="font-medium">
+            <TableRow key={price.attributes.vehicle}>
+              <TableCell className="font-medium">
                 {price.attributes.vehicle}
-              </UI.TableCell>
-              <UI.TableCell>
-                Max. {price.attributes.travelers} Personen
-              </UI.TableCell>
-              <UI.TableCell className="text-right">
+              </TableCell>
+              <TableCell>Max. {price.attributes.travelers} Personen</TableCell>
+              <TableCell className="text-right">
                 EUR {price.attributes.pricePerKm.toString().replace('.', ',')}
-              </UI.TableCell>
-            </UI.TableRow>
+              </TableCell>
+            </TableRow>
           ))}
-        </UI.TableBody>
-      </UI.Table>
+        </TableBody>
+      </Table>
       <div className="flex gap-2 rounded-lg bg-gray-100 items-center py-4 mt-16 px-4">
         <LifeBuoy className="text-indigo-700" />
         <div className="flex justify-between items-center w-full">
-          <UI.Typography size={'sm'}>
+          <Typography size={'sm'}>
             *Der Kilometerpreis wird angewendet, wenn die Fahrtstrecke mehr als
             100 km in eine Richtung ist und es sich nicht um eine Rundfahrt mit
             langen Wartezeiten handelt. Alle Preisangaben netto, ohne
             Mehrwertsteuer.
-          </UI.Typography>
+          </Typography>
         </div>
       </div>
     </div>

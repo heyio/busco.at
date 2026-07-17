@@ -1,5 +1,5 @@
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import { UI } from '../index';
+import Typography from '@/components/ui/typography';
 
 export type RatingProps = {
   value: number;
@@ -19,9 +19,9 @@ function Rating({ value }: RatingProps) {
         ))}
         {halfStars > 0 && <FaStarHalfAlt className="text-yellow-500 h-4" />}
       </blockquote>
-      <UI.Typography textColor={'white'}>
+      <Typography textColor={'white'}>
         Bewertet mit 4,5 Sternen von über 500 Kunden
-      </UI.Typography>
+      </Typography>
     </div>
   );
 }

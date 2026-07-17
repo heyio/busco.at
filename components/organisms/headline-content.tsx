@@ -1,4 +1,4 @@
-import { UI } from '../index';
+import Typography from '../ui/typography';
 
 export type HeadlineContentItem = {
   headline: string;
@@ -13,14 +13,14 @@ function HeadlineContent({ content }: HeadlineContentProps) {
   return (
     <div className="grid md:grid-cols-2 gap-8">
       <div className="mt-6">
-        <UI.Typography type="h2" size={'h3'} weight={'bold'}>
+        <Typography type="h2" size={'h3'} weight={'bold'}>
           {content.headline}
-        </UI.Typography>
+        </Typography>
       </div>
       <div>
-        <UI.Typography size={'h4'} textColor={'gray'} className="mt-6">
+        <Typography size={'h4'} textColor={'gray'} className="mt-6">
           {content.content}
-        </UI.Typography>
+        </Typography>
       </div>
     </div>
   );

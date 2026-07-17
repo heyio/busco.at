@@ -1,5 +1,13 @@
-import { UI } from '../index';
 import { TestimonialType } from '@/types/TestimonialItem';
+import Typography from '../ui/typography';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from '../ui/carousel';
+import { Card, CardContent } from '../ui/card';
 
 export type TestimonialsProps = {
   items: TestimonialType[];
@@ -8,43 +16,43 @@ export type TestimonialsProps = {
 export function Testimonials({ items }: TestimonialsProps) {
   return (
     <div>
-      <UI.Typography size={'h3'} weight={'bold'} className="text-center">
+      <Typography size={'h3'} weight={'bold'} className="text-center">
         Kundenmeinungen zu Busco
-      </UI.Typography>
-      <UI.Typography size={'h5'} className="mt-2 mb-8 text-center">
+      </Typography>
+      <Typography size={'h5'} className="mt-2 mb-8 text-center">
         Einige Worte unserer zufriedenen Kunden
-      </UI.Typography>
-      <UI.Carousel className="w-full max-w-[80%] mx-auto">
-        <UI.CarouselContent>
+      </Typography>
+      <Carousel className="w-full max-w-[80%] mx-auto">
+        <CarouselContent>
           {items.map((item: TestimonialType, index: number) => (
-            <UI.CarouselItem key={index}>
+            <CarouselItem key={index}>
               <div className="p-1">
-                <UI.Card>
-                  <UI.CardContent className="flex flex-col gap-4 items-center justify-center p-6 bg-gray-50 shadow-0 text-center">
-                    <UI.Typography
+                <Card>
+                  <CardContent className="flex flex-col gap-4 items-center justify-center p-6 bg-gray-50 shadow-0 text-center">
+                    <Typography
                       size={'h4'}
                       className="max-w-[80%] leading-8 !tracking-wider"
                     >
                       {item.content}
-                    </UI.Typography>
+                    </Typography>
                     <div className="flex flex-col md:flex-row md:gap-4 items-center mt-4">
-                      <UI.Typography weight={'bold'} size={'h5'}>
+                      <Typography weight={'bold'} size={'h5'}>
                         {item.author}
-                      </UI.Typography>
+                      </Typography>
                       <span className="hidden md:block">{' / '}</span>
-                      <UI.Typography textColor={'gray'} size={'h5'}>
+                      <Typography textColor={'gray'} size={'h5'}>
                         {item.company}
-                      </UI.Typography>
+                      </Typography>
                     </div>
-                  </UI.CardContent>
-                </UI.Card>
+                  </CardContent>
+                </Card>
               </div>
-            </UI.CarouselItem>
+            </CarouselItem>
           ))}
-        </UI.CarouselContent>
-        <UI.CarouselPrevious />
-        <UI.CarouselNext />
-      </UI.Carousel>
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   );
 }

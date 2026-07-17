@@ -1,6 +1,6 @@
 'use client';
 import useScroll from '@/hooks/use-scroll';
-import { UI } from '../index';
+import { Button } from '@/components/ui/button';
 
 export type ScrollToProps = {
   price: number;
@@ -21,10 +21,10 @@ function ScrollTo({ price, title }: ScrollToProps) {
           <p>{title}</p>
           <p></p>
         </div>
-        <UI.Button className="rounded-full" onClick={scrollToTop}>
+        <Button className="rounded-full" onClick={scrollToTop}>
           <var className="not-italic">€{price},-</var>{' '}
           <span className="pl-3">Jetzt buchen</span>
-        </UI.Button>
+        </Button>
       </div>
     </div>
   );

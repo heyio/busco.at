@@ -1,4 +1,4 @@
-import { UI } from '../index';
+import Typography from '@/components/ui/typography';
 
 export type EnumerationItem = {
   headline: string;
@@ -19,15 +19,15 @@ function Enumeration({ content }: EnumerationProps) {
             index + 1 === 2 ? 'lg:border-x border-gray-300 px-6' : ''
           }`}
         >
-          <UI.Typography size={'h4'} weight={'bold'}>
+          <Typography size={'h4'} weight={'bold'}>
             {enumeration.headline}
-          </UI.Typography>
-          <UI.Typography size={'h5'} textColor={'gray'} className="mt-4">
+          </Typography>
+          <Typography size={'h5'} textColor={'gray'} className="mt-4">
             {enumeration.content}
-          </UI.Typography>
-          <UI.Typography size={'h3'} weight={'bold'} className="mt-4">
+          </Typography>
+          <Typography size={'h3'} weight={'bold'} className="mt-4">
             {index + 1}
-          </UI.Typography>
+          </Typography>
         </div>
       ))}
     </div>

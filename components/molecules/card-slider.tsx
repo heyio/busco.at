@@ -1,11 +1,12 @@
 'use client';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { useEffect, useState } from 'react';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 import { PostType } from '@/types/Post';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-fade';
 import ServiceCard from './service-card';
 
 export type CardSliderProps = {
@@ -13,40 +14,39 @@ export type CardSliderProps = {
 };
 
 function CardSlider({ posts }: CardSliderProps) {
-  const breakpoints = {
-    0: {
-      slidesPerView: 1.25,
-    },
-    640: {
-      slidesPerView: 2.25,
-    },
-    1024: {
-      slidesPerView: 3.25,
-    },
-    1280: {
-      slidesPerView: 4.25,
-    },
-  };
+  const [api, setApi] = useState<CarouselApi>();
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    const autoplayInterval = setInterval(() => {
+      api.scrollNext();
+    }, 4000);
+
+    return () => clearInterval(autoplayInterval);
+  }, [api]);
+
   return (
-    <Swiper
-      spaceBetween={32}
-      breakpoints={breakpoints}
-      modules={[Autoplay]}
-      effect="slide"
-      fadeEffect={{ crossFade: true }}
-      speed={800}
-      autoplay={{ delay: 4000 }}
+    <Carousel
+      setApi={setApi}
+      opts={{ loop: true, align: 'start' }}
       className="h-full"
-      loop={true}
     >
-      {posts.map((post: PostType, index: number) => {
-        return (
-          <SwiperSlide key={index}>
-            <ServiceCard key={index} post={post} />
-          </SwiperSlide>
-        );
-      })}
-    </Swiper>
+      <CarouselContent className="-ml-8">
+        {posts.map((post: PostType, index: number) => {
+          return (
+            <CarouselItem
+              key={index}
+              className="pl-8 basis-[80%] sm:basis-[44.4444%] lg:basis-[30.7692%] xl:basis-[23.5294%]"
+            >
+              <ServiceCard post={post} />
+            </CarouselItem>
+          );
+        })}
+      </CarouselContent>
+    </Carousel>
   );
 }
 

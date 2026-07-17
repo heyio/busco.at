@@ -1,5 +1,9 @@
 import Image from 'next/image';
-import { UI } from '../index';
+import Breadcrumbs from './breadcrumbs';
+import Typography from '@/components/ui/typography';
+import List from '@/components/organisms/list';
+import ListItem from './list-item';
+import Rating from '@/components/organisms/rating';
 import BookingForm from '../organisms/booking-form';
 import { HeroHeaderProps } from '@/types/HeroHeader';
 import { BreadcrumbType } from '@/types/Breadcrumbs';
@@ -37,39 +41,39 @@ function HeroSection({ content, breadCrumbs, priceInfo }: HeroProps) {
       )}
       <div className="lg:grid lg:grid-cols-2 justify-between text-white relative z-20 container mx-auto h-full md:py-16">
         <div className="flex flex-col gap-12 lg:gap-24">
-          <UI.Breadcrumbs items={breadcrumbs} />
+          <Breadcrumbs items={breadcrumbs} />
           <div>
-            <UI.Typography textColor="white" size="h4">
+            <Typography textColor="white" size="h4">
               {content.subline}
-            </UI.Typography>
-            <UI.Typography
+            </Typography>
+            <Typography
               type="h1"
               textColor="white"
               size="h2"
               weight={'semibold'}
             >
               {content.headline}
-            </UI.Typography>
-            <UI.List className="mt-8 hidden md:block">
+            </Typography>
+            <List className="mt-8 hidden md:block">
               {content.benefits.map((benefit) => (
-                <UI.ListItem key={benefit.id} item={benefit.title} />
+                <ListItem key={benefit.id} item={benefit.title} />
               ))}
-            </UI.List>
+            </List>
           </div>
           <div className="pb-8 hidden md:block">
-            <UI.Rating value={content.rating} />
+            <Rating value={content.rating} />
           </div>
         </div>
         <div className="pt-8 md:pt-0">
           <BookingForm priceInfo={priceInfo} />
         </div>
-        <UI.List className="mt-8 block md:hidden">
+        <List className="mt-8 block md:hidden">
           {content.benefits.map((benefit) => (
-            <UI.ListItem key={benefit.id} item={benefit.title} />
+            <ListItem key={benefit.id} item={benefit.title} />
           ))}
-        </UI.List>
+        </List>
         <div className="pt-8 block md:hidden">
-          <UI.Rating value={content.rating} />
+          <Rating value={content.rating} />
         </div>
       </div>
     </div>

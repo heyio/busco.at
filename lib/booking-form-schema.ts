@@ -1,5 +1,3 @@
-'use client';
-
 import * as z from 'zod';
 import getFormData from '@/lib/form-data';
 

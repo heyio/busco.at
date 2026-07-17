@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
 import {
   Popover,
   PopoverContent,
@@ -21,15 +20,19 @@ export type DatePickerProps = {
 
 export function DatePicker({ field, onSelect }: DatePickerProps) {
   const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
-  const [date, setDate] = useState<Date | undefined>();
+  const [date, setDate] = React.useState<Date>();
 
   const today = new Date();
   const fromDate = new Date(today);
   fromDate.setDate(fromDate.getDate() + 2);
 
-  const handleSelect = (date: Date) => {
+  const handleSelect = (date?: Date) => {
+    if (!date) {
+      return;
+    }
+
     setDate(date);
-    onSelect({ date: date, field: field });
+    onSelect({ date, field });
     setIsCalendarOpen(false);
   };
 
@@ -37,9 +40,9 @@ export function DatePicker({ field, onSelect }: DatePickerProps) {
     <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant={'outline'}
+          variant="outline"
           className={cn(
-            'w-full justify-start text-left font-normal px-3 mt-1! hover:bg-gray-50',
+            'w-full justify-start text-left font-normal px-3 hover:bg-gray-50',
             !date && 'text-muted-foreground',
           )}
         >
@@ -47,14 +50,15 @@ export function DatePicker({ field, onSelect }: DatePickerProps) {
           {date ? format(date, 'dd.MM.yyyy') : <span>Datum</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
         <Calendar
           mode="single"
-          startMonth={fromDate}
+          defaultMonth={date ?? fromDate}
           disabled={{ before: fromDate }}
           selected={date}
-          onDayClick={handleSelect}
+          onSelect={handleSelect}
           locale={de}
+          className="[--cell-size:1.75rem] p-2"
         />
       </PopoverContent>
     </Popover>

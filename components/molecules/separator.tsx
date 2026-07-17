@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { UI } from '../index';
+import Typography from '@/components/ui/typography';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
@@ -22,9 +22,9 @@ function Separator({ content }: SeparatorProps) {
     return (
       <div className="relative py-8 bg-slate-200">
         <div className="text-center relative z-10 max-w-3xl px-4 py-8 lg:py-32 mx-auto">
-          <UI.Typography size={'h1'} textColor={'white'} weight={'bold'}>
+          <Typography size={'h1'} textColor={'white'} weight={'bold'}>
             {content?.headline}
-          </UI.Typography>
+          </Typography>
         </div>
       </div>
     );
@@ -46,21 +46,21 @@ function Separator({ content }: SeparatorProps) {
       />
       <div className="text-center relative z-10 max-w-3xl px-4 py-8 lg:py-32 mx-auto">
         {!!content.subline && (
-          <UI.Typography
+          <Typography
             size={'h4'}
             textColor={'white'}
             weight={'semibold'}
             className="pb-8"
           >
             {content?.subline}
-          </UI.Typography>
+          </Typography>
         )}
-        <UI.Typography size={'h1'} textColor={'white'} weight={'bold'}>
+        <Typography size={'h1'} textColor={'white'} weight={'bold'}>
           {content?.headline}
-        </UI.Typography>
-        <UI.Typography size={'h4'} textColor={'white'} className="mt-6 pb-8">
+        </Typography>
+        <Typography size={'h4'} textColor={'white'} className="mt-6 pb-8">
           {content?.content}
-        </UI.Typography>
+        </Typography>
 
         {!!content?.cta && (
           <Link

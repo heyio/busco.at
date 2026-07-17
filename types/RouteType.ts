@@ -1,9 +1,13 @@
 export type DestinationType = {
-  data: {
-    attributes: {
-      name: string;
+  data?: {
+    attributes?: {
+      name?: string;
     };
   };
+  attributes?: {
+    name?: string;
+  };
+  name?: string;
 };
 
 export type RouteType = {

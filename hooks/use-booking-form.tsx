@@ -18,6 +18,24 @@ export type PriceInfoType = {
 };
 type FieldName = keyof BookingFormValues;
 
+const getDestinationName = (destination?: RouteType['from']) => {
+  return (
+    destination?.data?.attributes?.name ||
+    destination?.attributes?.name ||
+    destination?.name ||
+    ''
+  );
+};
+
+const getPriceAttributes = (
+  price: { attributes?: PriceItemType } | PriceItemType,
+) => {
+  return (
+    (price as { attributes?: PriceItemType })?.attributes ??
+    (price as PriceItemType)
+  );
+};
+
 const useBookingForm = (form: FieldValues) => {
   const [bookingForm, setBokingForm] = useAtom(bookingFormAtom);
   const [price, setPrice] = useState<number>(0);
@@ -47,24 +65,32 @@ const useBookingForm = (form: FieldValues) => {
   };
 
   const handlePrice = (priceInfo: PriceInfoType) => {
-    setFrom(priceInfo.routeInfo?.from.data.attributes.name);
-    setTo(priceInfo.routeInfo?.to.data.attributes.name);
+    const routeFrom = getDestinationName(priceInfo.routeInfo?.from);
+    const routeTo = getDestinationName(priceInfo.routeInfo?.to);
+
+    setFrom(routeFrom);
+    setTo(routeTo);
 
     const selectedVehicle = form.getValues('vehicle');
     const vehiclePrice = priceInfo.prices.find(
       (price: { attributes: PriceItemType }) =>
-        selectedVehicle === price.attributes.vehicle
+        selectedVehicle === getPriceAttributes(price)?.vehicle,
     );
-    const total = vehiclePrice?.attributes?.pricePerKm || 0;
-    if (
-      form.getValues('from')?.toLowerCase() === from?.toLowerCase() &&
-      form.getValues('to')?.toLowerCase() === to?.toLowerCase()
-    ) {
+    const total =
+      getPriceAttributes(vehiclePrice ?? { attributes: undefined })
+        ?.pricePerKm || 0;
+
+    const formFrom = form.getValues('from')?.toLowerCase();
+    const formTo = form.getValues('to')?.toLowerCase();
+    const routeFromLower = routeFrom?.toLowerCase();
+    const routeToLower = routeTo?.toLowerCase();
+
+    if (formFrom === routeFromLower && formTo === routeToLower) {
       setPrice(
         Math.round(
           total * priceInfo?.routeInfo?.distanceInKm +
-            priceInfo?.routeInfo?.additionalCosts
-        )
+            (priceInfo?.routeInfo?.additionalCosts || 0),
+        ),
       );
     } else {
       setPrice(0);

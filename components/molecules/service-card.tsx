@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { PostType } from '@/types/Post';
 import Image from 'next/image';
-import { UI } from '../index';
+import Typography from '@/components/ui/typography';
 import colors from '@/constants/postColors';
 
 export type ServiceCardProps = {
@@ -50,13 +50,13 @@ function ServiceCard({ post }: ServiceCardProps) {
         <div>
           <div className="group relative">
             <a href={post.href}>
-              <UI.Typography
+              <Typography
                 weight={'semibold'}
                 size={'h4'}
                 style={{ color: colors[colorIndex].title }}
               >
                 {post.title}
-              </UI.Typography>
+              </Typography>
             </a>
           </div>
         </div>
@@ -65,12 +65,12 @@ function ServiceCard({ post }: ServiceCardProps) {
             className="text-sm leading-6 text-green-50"
             style={{ color: colors[colorIndex].copy }}
           >
-            <UI.Typography
+            <Typography
               style={{ color: colors[colorIndex].copy }}
               className="text-[16px]"
             >
               {post.content}
-            </UI.Typography>
+            </Typography>
           </div>
         </div>
       </div>

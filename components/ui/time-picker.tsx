@@ -62,7 +62,7 @@ export function TimePicker({ field, onChange }: TimePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'w-full justify-start text-left font-normal px-3 mt-1! hover:bg-gray-50',
+            'w-full justify-start text-left font-normal px-3 hover:bg-gray-50',
             time === '' && 'text-muted-foreground',
           )}
         >

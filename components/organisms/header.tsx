@@ -1,6 +1,6 @@
 'use client';
 
-import { UI } from '../index';
+import HeroSection from '../molecules/hero-section';
 import { HeroHeaderProps } from '@/types/HeroHeader';
 import { BreadcrumbType } from '@/types/Breadcrumbs';
 import { PriceItemType } from '@/types/PriceItem';
@@ -22,7 +22,7 @@ export default function Header({
     <header>
       <Navigation />
       <div>
-        <UI.HeroSection
+        <HeroSection
           content={content}
           breadCrumbs={breadCrumbs}
           priceInfo={priceInfo}
