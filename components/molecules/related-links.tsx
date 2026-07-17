@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { UI } from '../index';
+import Spacer from '@/components/ui/spacer';
+import Typography from '@/components/ui/typography';
 
 export type RelatedLinksItems = {
   headline: string;
@@ -17,19 +18,19 @@ function RelatedLinks({ content }: RelatedLinksProps) {
   return (
     <div className="bg-white">
       <div className="container mx-auto max-w-3xl px-4">
-        <UI.Spacer size={'lg'} />
-        <UI.Typography size={'h3'} weight={'bold'} className="text-center">
+        <Spacer size={'lg'} />
+        <Typography size={'h3'} weight={'bold'} className="text-center">
           {content.headline}
-        </UI.Typography>
-        <UI.Spacer size={'xs'} />
-        <UI.Typography size={'h5'} className="mt-2 mb-8 text-center">
+        </Typography>
+        <Spacer size={'xs'} />
+        <Typography size={'h5'} className="mt-2 mb-8 text-center">
           {content.content}
-        </UI.Typography>
-        <UI.Spacer size={'sm'} />
-        <UI.Typography size={'h4'} className="mt-2 text-center">
+        </Typography>
+        <Spacer size={'sm'} />
+        <Typography size={'h4'} className="mt-2 text-center">
           {content.subline}
-        </UI.Typography>
-        <UI.Spacer size={'md'} />
+        </Typography>
+        <Spacer size={'md'} />
         <div className="flex flex-col md:flex-row gap-2 justify-between w-full mx-auto">
           {linksForPersons.map((persons: number) => (
             <Link
@@ -42,7 +43,7 @@ function RelatedLinks({ content }: RelatedLinksProps) {
           ))}
         </div>
       </div>
-      <UI.Spacer size={'lg'} />
+      <Spacer size={'lg'} />
     </div>
   );
 }

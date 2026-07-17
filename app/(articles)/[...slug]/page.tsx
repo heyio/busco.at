@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Script from 'next/script';
-import { UI } from '@/components/index';
 import AuthorBox from '@/components/molecules/author-box';
+import Breadcrumbs from '@/components/molecules/breadcrumbs';
 import SectionBlock from '@/components/molecules/section-block';
+import Typography from '@/components/ui/typography';
 import ChildList from './child-list';
 import {
   resolveStrapiArticleSiloByPath,
@@ -82,13 +83,13 @@ export default async function ArticleSiloPage({
 
       <div className="container mx-auto px-4 pt-24 pb-16 max-w-4xl">
         {breadcrumbItems.length > 0 && (
-          <UI.Breadcrumbs items={breadcrumbItems} />
+          <Breadcrumbs items={breadcrumbItems} />
         )}
 
         {article.title && (
-          <UI.Typography type="h1" size="h2" weight="bold" className="mt-6">
+          <Typography type="h1" size="h2" weight="bold" className="mt-6">
             {article.title}
-          </UI.Typography>
+          </Typography>
         )}
 
         {coverImage && (

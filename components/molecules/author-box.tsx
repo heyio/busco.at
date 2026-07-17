@@ -1,4 +1,4 @@
-import { UI } from '@/components/index';
+import Typography from '@/components/ui/typography';
 
 export interface AuthorBoxProps {
   name?: string | null;
@@ -18,11 +18,11 @@ export default function AuthorBox({ name, bio, avatar }: AuthorBoxProps) {
         />
       )}
       <div>
-        {name && <UI.Typography weight="semibold">{name}</UI.Typography>}
+        {name && <Typography weight="semibold">{name}</Typography>}
         {bio && (
-          <UI.Typography size="sm" textColor="gray">
+          <Typography size="sm" textColor="gray">
             {bio}
-          </UI.Typography>
+          </Typography>
         )}
       </div>
     </div>

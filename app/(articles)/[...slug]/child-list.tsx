@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { UI } from '@/components/index';
+import Typography from '@/components/ui/typography';
 import type { StrapiNodeType } from '@/hooks/use-strapi-navigation';
 
 interface ChildListProps {
@@ -17,9 +17,9 @@ export default function ChildList({
 
   return (
     <div className="mt-12 pt-8 border-t border-gray-200">
-      <UI.Typography type="h3" size="h4" weight="bold" className="mb-6">
+      <Typography type="h3" size="h4" weight="bold" className="mb-6">
         {nodeType === 'category' ? 'Artikel' : 'Unterthemen'}
-      </UI.Typography>
+      </Typography>
       <div className="grid gap-4">
         {items.map((child: any) => {
           const childPath = (child.path ?? '').startsWith('/')
@@ -32,7 +32,7 @@ export default function ChildList({
               href={childPath}
               className="p-4 border border-gray-200 rounded-lg hover:shadow-md hover:border-gray-400 transition"
             >
-              <UI.Typography weight="semibold">{child.title}</UI.Typography>
+              <Typography weight="semibold">{child.title}</Typography>
             </Link>
           );
         })}

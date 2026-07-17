@@ -1,4 +1,4 @@
-import { UI } from '@/components/index';
+import Footer from '@/components/organisms/footer';
 import './globals.css';
 import { Urbanist } from 'next/font/google';
 import { Metadata } from 'next';
@@ -27,7 +27,7 @@ export default async function RootLayout({
     <html lang="de">
       <body className={urbanist.className}>
         {children}
-        <UI.Footer />
+        <Footer />
       </body>
     </html>
   );

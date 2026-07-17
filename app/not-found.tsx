@@ -1,27 +1,29 @@
-import { UI } from '@/components/index';
+import { Navigation } from '@/components/organisms/navigation';
+import Spacer from '@/components/ui/spacer';
+import Typography from '@/components/ui/typography';
 import Link from 'next/link';
 
 function Page() {
   return (
     <>
       <header className="min-h-24">
-        <UI.Navigation />
+        <Navigation />
       </header>
       <main className="pt-32 container mx-auto max-w-3xl px-4">
-        <UI.Typography
+        <Typography
           type="h1"
           size="h3"
           weight="bold"
           className="text-center"
         >
           404 - Seite nicht gefunden.
-        </UI.Typography>
-        <UI.Spacer />
-        <UI.Typography className="text-center">
+        </Typography>
+        <Spacer />
+        <Typography className="text-center">
           Die angeforderte Website wurde nicht gefunden oder existiert nicht.
           Bitte kehren Sie zur Startseite zurück.
-        </UI.Typography>
-        <UI.Spacer />
+        </Typography>
+        <Spacer />
         <div className="flex">
           <Link
             href="/"
@@ -30,7 +32,7 @@ function Page() {
             Zur Startseite
           </Link>
         </div>
-        <UI.Spacer />
+        <Spacer />
       </main>
     </>
   );

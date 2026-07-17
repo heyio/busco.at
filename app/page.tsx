@@ -1,6 +1,9 @@
-import { UI } from '@/components/index';
 import BookingFormIndex from '@/components/organisms/booking-form-index';
+import { Faq } from '@/components/organisms/faq';
+import HeadlineContent from '@/components/organisms/headline-content';
 import { Navigation } from '@/components/organisms/navigation';
+import Separator from '@/components/molecules/separator';
+import Spacer from '@/components/ui/spacer';
 import Typography from '@/components/ui/typography';
 import Image from 'next/image';
 import Shape from '@/public/elements/shape.svg';
@@ -105,31 +108,31 @@ export default async function Index() {
       </header>
       <main className="py-16">
         <div className="hidden md:block">
-          <UI.Spacer size={'lg'} />
-          <UI.Spacer size={'lg'} />
+          <Spacer size={'lg'} />
+          <Spacer size={'lg'} />
         </div>
         <div className="container mx-auto px-4">
           <div>
             <Image src={Shape} width={64} height={34} alt="Shape Busco" />
           </div>
-          <UI.HeadlineContent
+          <HeadlineContent
             content={{
               headline: intro.headline,
               content: intro.content,
             }}
           />
-          <UI.Spacer size={'lg'} />
-          <UI.Spacer size={'lg'} />
+          <Spacer size={'lg'} />
+          <Spacer size={'lg'} />
         </div>
         <div className="text-center px-4">
-          <UI.Typography size={'h4'} weight={'bold'} className="text-secondary">
+          <Typography size={'h4'} weight={'bold'} className="text-secondary">
             {sectionTwo.content}
-          </UI.Typography>
-          <UI.Typography size={'h3'} weight={'bold'}>
+          </Typography>
+          <Typography size={'h3'} weight={'bold'}>
             {sectionTwo.headline}
-          </UI.Typography>
+          </Typography>
         </div>
-        <UI.Spacer size={'lg'} />
+        <Spacer size={'lg'} />
         <div className="container mx-auto px-4 flex flex-col gap-12 md:gap-24">
           {horizontalCards.map((card: HorizontalCardType, index: number) => (
             <div key={index}>
@@ -140,14 +143,14 @@ export default async function Index() {
             </div>
           ))}
         </div>
-        <UI.Spacer size={'lg'} />
-        <UI.Separator content={separatorOne} />
+        <Spacer size={'lg'} />
+        <Separator content={separatorOne} />
         <div className="px-4">
-          <UI.Spacer size={'lg'} />
-          {faqs.length > 0 && <UI.Faq items={faqs} />}
+          <Spacer size={'lg'} />
+          {faqs.length > 0 && <Faq items={faqs} />}
         </div>
-        <UI.Spacer size={'lg'} />
-        <UI.Separator content={separatorTwo} />
+        <Spacer size={'lg'} />
+        <Separator content={separatorTwo} />
       </main>
     </>
   );

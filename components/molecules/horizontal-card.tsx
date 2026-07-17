@@ -1,6 +1,6 @@
 import { HorizontalCardType } from '@/types/Post';
 import Image from 'next/image';
-import { UI } from '../index';
+import Typography from '@/components/ui/typography';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
@@ -32,16 +32,16 @@ function HorizontalCard({ post, alignment }: ServiceCardProps) {
         </div>
         <div>
           <div className="pt-12">
-            <UI.Typography weight={'semibold'} size={'h4'}>
+            <Typography weight={'semibold'} size={'h4'}>
               {post.title}
-            </UI.Typography>
+            </Typography>
           </div>
         </div>
         <div className="relative flex items-center gap-x-4">
           <div className="text-md leading-6">
-            <UI.Typography className="text-[16px]">
+            <Typography className="text-[16px]">
               {post.content}
-            </UI.Typography>
+            </Typography>
           </div>
         </div>
         <div className="mt-16">

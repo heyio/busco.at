@@ -1,4 +1,4 @@
-import { UI } from '@/components/index';
+import Typography from '@/components/ui/typography';
 
 export interface SectionBlockProps {
   headline?: string | null;
@@ -15,14 +15,14 @@ export default function SectionBlock({
     <div className="grid md:grid-cols-2 gap-8 my-8">
       <div>
         {headline && (
-          <UI.Typography type="h3" size="h4" weight="semibold">
+          <Typography type="h3" size="h4" weight="semibold">
             {headline}
-          </UI.Typography>
+          </Typography>
         )}
         {text && (
-          <UI.Typography textColor="gray" className="mt-4">
+          <Typography textColor="gray" className="mt-4">
             {text}
-          </UI.Typography>
+          </Typography>
         )}
       </div>
       {image?.url && (

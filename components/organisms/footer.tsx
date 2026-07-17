@@ -1,6 +1,6 @@
-import { UI } from '../index';
 import Link from 'next/link';
 import Logo from '../ui/logo';
+import Typography from '../ui/typography';
 import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa6';
 import CookieBanner from './cookie-banner';
 import CtaCookies from '../molecules/cta-cookies';
@@ -53,9 +53,9 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <UI.Typography size={'h4'} weight={'bold'}>
+          <Typography size={'h4'} weight={'bold'}>
             Wien
-          </UI.Typography>
+          </Typography>
           <ul className="flex flex-col gap-2 text-lg mt-4">
             <li>
               <Link

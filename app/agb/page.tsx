@@ -1,7 +1,8 @@
 import { remark } from 'remark';
 import html from 'remark-html';
 import { Metadata } from 'next';
-import { UI } from '@/components/index';
+import { Navigation } from '@/components/organisms/navigation';
+import Typography from '@/components/ui/typography';
 import '@/app/assets/styles/markdown.css';
 
 export const dynamic = 'force-dynamic';
@@ -37,17 +38,17 @@ export default async function Page() {
   return (
     <>
       <header className="min-h-24">
-        <UI.Navigation />
+        <Navigation />
       </header>
       <main className="pt-32 container mx-auto px-4">
-        <UI.Typography
+        <Typography
           type="h1"
           size="h3"
           weight="bold"
           className="text-center"
         >
           {pageData.title}
-        </UI.Typography>
+        </Typography>
         <div
           dangerouslySetInnerHTML={{ __html: contentHtml }}
           className="pb-2 markdown"

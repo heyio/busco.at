@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { BookingFormValues, formSchema } from '@/lib/booking-form-schema';
 import defaultValues from '@/lib/default-booking-form-values';
-import { UI } from '../index';
 import useBookingForm from '@/hooks/use-booking-form';
 import Image from 'next/image';
 import { TimePicker } from '../ui/time-picker';
@@ -24,6 +23,15 @@ import steps from '@/lib/booking-form-steps';
 import Autocomplete from '../molecules/autocomplete';
 import { Checkbox } from '../ui/checkbox';
 import Link from 'next/link';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { Switch } from '../ui/switch';
+import Typography from '../ui/typography';
 
 function BookingFormIndex() {
   const form = useForm<BookingFormValues>({
@@ -69,9 +77,9 @@ function BookingFormIndex() {
   return (
     <div className="text-foreground w-full bg-white rounded-2xl">
       <div className="pb-2 pt-6 px-6">
-        <UI.Typography size="h5" weight={'bold'}>
+        <Typography size="h5" weight={'bold'}>
           {steps[currentStep].title}
-        </UI.Typography>
+        </Typography>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -104,23 +112,23 @@ function BookingFormIndex() {
                       <FormItem>
                         <FormLabel>Fahrzeug</FormLabel>
                         <FormControl>
-                          <UI.Select
+                          <Select
                             onValueChange={field.onChange}
                             value={field.value}
                             defaultValue={field.value}
                           >
-                            <UI.FormControl className="relative">
-                              <UI.SelectTrigger>
-                                <UI.SelectValue
+                            <FormControl className="relative">
+                              <SelectTrigger>
+                                <SelectValue
                                   defaultValue={field.value}
                                   placeholder="Fahrzeug"
                                 />
-                              </UI.SelectTrigger>
-                            </UI.FormControl>
-                            <UI.SelectContent>
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
                               {vehicles?.length &&
                                 vehicles.map((vehicle) => (
-                                  <UI.SelectItem
+                                  <SelectItem
                                     key={vehicle.name}
                                     value={vehicle.name}
                                     className="relative min-h-10"
@@ -138,10 +146,10 @@ function BookingFormIndex() {
                                         alt={vehicle.name}
                                       />
                                     </div>
-                                  </UI.SelectItem>
+                                  </SelectItem>
                                 ))}
-                            </UI.SelectContent>
-                          </UI.Select>
+                            </SelectContent>
+                          </Select>
                         </FormControl>
                       </FormItem>
                     )}
@@ -287,35 +295,35 @@ function BookingFormIndex() {
           )}
           {currentStep === 2 && (
             <div className="flex flex-col gap-4 pb-6 px-6">
-              <UI.Typography>
+              <Typography>
                 Wir möchten Ihnen versichern, dass wir Ihr Anliegen ernst nehmen
                 und uns bemühen, Ihnen schnellstmöglich zu antworten. Sie können
                 mit einer Rückmeldung von uns innerhalb von 48 Stunden rechnen.
-              </UI.Typography>
+              </Typography>
             </div>
           )}
           {/* Retunr Journey END */}
           {currentStep < 2 && (
             <div className="flex gap-4 items-center justify-between w-full pb-6 px-6">
               <div>
-                <UI.FormField
+                <FormField
                   control={form.control}
                   name="returnJourney"
                   render={({ field }) => (
-                    <UI.FormItem>
+                    <FormItem>
                       <div className="space-y-0.5">
-                        <UI.FormLabel className="cursor-pointer">
+                        <FormLabel className="cursor-pointer">
                           Rückfahrt
-                        </UI.FormLabel>
+                        </FormLabel>
                       </div>
-                      <UI.FormControl>
-                        <UI.Switch
+                      <FormControl>
+                        <Switch
                           className="mt-1!"
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
-                      </UI.FormControl>
-                    </UI.FormItem>
+                      </FormControl>
+                    </FormItem>
                   )}
                 />
                 <FormField
