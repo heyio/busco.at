@@ -50,14 +50,18 @@ async function fetchStrapiRelatedContent(
   const endpoint = CONTENT_TYPE_ENDPOINT_MAP[contentType];
   if (!endpoint) return null;
 
-  const url = `${STRAPI_URL}/api/${endpoint}?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`;
+  const url = `${STRAPI_URL}/api/${endpoint}?filters[slug][$containsi]=${encodeURIComponent(slug)}&populate=*`;
+
   try {
     const res = await fetch(url, { next: { revalidate: STRAPI_REVALIDATE } });
+
     if (!res.ok) return null;
+
     const json = await res.json();
     const item = json.data?.[0];
-    return item ? (item.attributes ?? item) : null;
-  } catch {
+    return item?.attributes ?? item ?? null;
+  } catch (e) {
+    console.error('[fetchStrapiRelatedContent] Error:', e);
     return null;
   }
 }
@@ -97,17 +101,20 @@ export async function resolveStrapiArticleSiloByPath(
 
   let article: any = null;
 
-  if (node.related?.contentType && node.related?.slug) {
-    article = await fetchStrapiRelatedContent(
-      node.related.contentType,
-      node.related.slug,
-    );
+  // Extract contentType from __type field (e.g., 'api::article.article')
+  const contentType = node.related?.__type;
+  const slug = node.related?.slug;
+
+  if (contentType && slug) {
+    article = await fetchStrapiRelatedContent(contentType, slug);
   }
 
+  // If fetch failed, fall back to navigation data
   if (!article && node.related) {
-    article = node.related.attributes ?? node.related;
+    article = node.related;
   }
 
+  // Last resort: use navigation title
   if (!article) {
     article = { title: node.title, slug: slugParts[slugParts.length - 1] };
   }

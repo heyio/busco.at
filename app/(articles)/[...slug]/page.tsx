@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Script from 'next/script';
+import ArticleHeader from '@/components/organisms/article-header';
 import AuthorBox from '@/components/molecules/author-box';
-import Breadcrumbs from '@/components/molecules/breadcrumbs';
 import SectionBlock from '@/components/molecules/section-block';
-import Typography from '@/components/ui/typography';
 import ChildList from './child-list';
 import {
   resolveStrapiArticleSiloByPath,
@@ -62,11 +61,16 @@ export default async function ArticleSiloPage({
   const { article, items, nodeType } = data;
   const seo = article.seo;
   const coverImage =
-    article.coverImage?.data?.attributes?.url ?? article.coverImage?.url;
+    article.coverImage?.data?.attributes?.url ||
+    article.coverImage?.attributes?.url ||
+    article.coverImage?.url ||
+    article.coverImage;
   const coverAlt =
-    article.coverImage?.data?.attributes?.alternativeText ?? article.title;
+    article.coverImage?.data?.attributes?.alternativeText ||
+    article.coverImage?.attributes?.alternativeText ||
+    article.title;
 
-  const breadcrumbItems = slug.slice(0, -1).map((_, idx) => ({
+  const breadcrumbItems = slug.map((_, idx) => ({
     title: slug[idx],
     url: `/${slug.slice(0, idx + 1).join('/')}`,
   }));
@@ -81,37 +85,35 @@ export default async function ArticleSiloPage({
         />
       )}
 
-      <div className="container mx-auto px-4 pt-24 pb-16 max-w-4xl">
-        {breadcrumbItems.length > 0 && (
-          <Breadcrumbs items={breadcrumbItems} />
-        )}
+      <ArticleHeader title={article.title} breadcrumbItems={breadcrumbItems} />
 
-        {article.title && (
-          <Typography type="h1" size="h2" weight="bold" className="mt-6">
-            {article.title}
-          </Typography>
-        )}
-
-        {coverImage && (
+      <article className="container mx-auto px-4 md:px-0 pb-16 max-w-4xl">
+        {coverImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={coverImage}
             alt={coverAlt}
-            className="w-full rounded-xl object-cover my-6 max-h-96"
+            className="w-full rounded-lg object-cover mt-8 mb-12 shadow-lg"
           />
+        ) : (
+          <div className="w-full bg-gray-200 rounded-lg mt-8 mb-12 h-96 flex items-center justify-center text-gray-500">
+            Kein Bild verfügbar
+          </div>
         )}
 
         {article.authorBox && (
-          <AuthorBox
-            name={article.authorBox.name}
-            bio={article.authorBox.bio}
-            avatar={article.authorBox.avatar}
-          />
+          <div className="my-8 py-6 border-y border-gray-200">
+            <AuthorBox
+              name={article.authorBox.name}
+              bio={article.authorBox.bio}
+              avatar={article.authorBox.avatar}
+            />
+          </div>
         )}
 
         {article.content && (
           <div
-            className="prose prose-lg max-w-none mt-6"
+            className="prose prose-lg max-w-none my-8 prose-headings:font-bold prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:font-semibold"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         )}
@@ -128,7 +130,7 @@ export default async function ArticleSiloPage({
         )}
 
         <ChildList items={items} nodeType={nodeType} parentSlug={slug} />
-      </div>
+      </article>
     </>
   );
 }

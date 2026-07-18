@@ -1,6 +1,5 @@
-import { Navigation } from '@/components/organisms/navigation';
+import HeroHeader from '@/components/organisms/hero-header';
 import Typography from '@/components/ui/typography';
-import Image from 'next/image';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -15,34 +14,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   return (
     <>
-      <header className="min-h-24">
-        <Navigation />
-        <div className="relative py-8 px-4 lg:min-h-64 lg:max-h-[800px] pt-24">
-          <Image
-            src="/images/busco-hero.jpg"
-            alt="Bus finden mit Busco"
-            fill
-            className="absolute top-0 left-0 z-0 object-cover object-bottom object-left"
-          />
-          <div className="lg:grid lg:grid-cols-2 justify-between text-white relative z-20 container mx-auto h-full md:pt-16 md:mb-32">
-            <div className="flex flex-col gap-12 lg:gap-24">
-              <div>
-                <Typography textColor="white" size="h4">
-                  Services von Busco
-                </Typography>
-                <Typography
-                  type="h1"
-                  textColor="white"
-                  size="h2"
-                  weight={'semibold'}
-                >
-                  Services von Busco
-                </Typography>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <HeroHeader
+        headline="Services von Busco"
+        content="Services von Busco"
+        showBookingForm={false}
+      />
       <main className="container mx-auto py-16">
         <Typography size={'h4'}>
           Busco ist eine Plattform, die sich auf die Vermittlung von Busfahrten

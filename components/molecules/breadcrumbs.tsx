@@ -20,7 +20,7 @@ function Breadcrumbs({ items }: BreadcrumbsProps) {
           {' '}
           <span>/</span>
           <Link href={item.url}>
-            <span>{item.title}</span>
+            <span className="capitalize">{item.title}</span>
           </Link>
         </div>
       ))}

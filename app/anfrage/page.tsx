@@ -1,8 +1,7 @@
 import { remark } from 'remark';
 import html from 'remark-html';
-import { Navigation } from '@/components/organisms/navigation';
+import HeroHeader from '@/components/organisms/hero-header';
 import RequestForm from '@/components/organisms/request-form';
-import Typography from '@/components/ui/typography';
 import '@/app/assets/styles/markdown.css';
 import { Metadata } from 'next';
 
@@ -51,18 +50,12 @@ export default async function Page() {
 
   return (
     <>
-      <header className="min-h-24">
-        <Navigation />
-      </header>
-      <main className="max-w-3xl w-full mx-auto mt-8 px-4 ">
-        <Typography
-          type="h1"
-          size="h3"
-          weight="bold"
-          className="text-center"
-        >
-          {pageData.title}
-        </Typography>
+      <HeroHeader
+        headline={pageData.title}
+        content="Anfrage stellen"
+        showBookingForm={false}
+      />
+      <main className="max-w-3xl w-full mx-auto px-4 pb-16">
         {contentHtml && (
           <div
             dangerouslySetInnerHTML={{ __html: contentHtml }}
